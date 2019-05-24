@@ -15,7 +15,6 @@ public class SinglyList<T> {
             rear = rear.next;
         }
     }
-
     public boolean isEmpty() {
         return this.head.next == null;
     }
