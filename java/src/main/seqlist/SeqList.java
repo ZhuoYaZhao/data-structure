@@ -1,10 +1,9 @@
-package seqlist;
+package main.seqlist;
 
 public class SeqList<T> {
 
     protected Object[] objects;
     protected int n;
-    private SeqList<? extends T> list;
 
     public SeqList(int length) {
         this.objects = new Object[length]; //申请数组得存储空间
@@ -16,7 +15,6 @@ public class SeqList<T> {
     }
 
     public SeqList(T[] values) {
-
 
         this(values.length);
 
@@ -54,14 +52,15 @@ public class SeqList<T> {
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder(this.getClass().getName() + "(");
+        StringBuilder str = new StringBuilder(this.getClass().getName() + "{");
         if (this.n > 0) {
             str.append(this.objects[0].toString());
+
             for (int i = 1; i < this.n; i++) {
-                str.append(",").append(this.objects[i].toString());
+                str.append(", ").append(this.objects[i].toString());
             }
         }
-        return str + ")";
+        return str + "}";
     }
 
     public int insert(int i, T x) {
@@ -74,19 +73,20 @@ public class SeqList<T> {
         if (i > this.n) {
             i = this.n;
         }
-        Object[] source = this.objects;
-        if (this.n == this.objects.length) {
-            this.objects = new Object[source.length * 2];
+        Object[] source = this.objects; //复制源数据
 
-            for (int j = 0; j < i; i++) {
-                this.objects[i] = source[i];
+        if (this.n == this.objects.length) {
+            this.objects = new Object[source.length * 2];// 扩充数组
+
+            for (int j = 0; j < i; j++) { //复制前i个数据
+                this.objects[j] = source[j];
             }
         }
         for (int j = this.n - 1; j >= i; j--) {
-            this.objects[i + 1] = source[j];
+            this.objects[j + 1] = source[j];
         }
-        this.objects[i] = x;
-        this.n++;
+        this.objects[i] = x; //将数据插入第i个数据
+        this.n++;//修改当前所存数据个数
         return i;
 
     }
@@ -99,7 +99,7 @@ public class SeqList<T> {
         if (this.n > 0 && i < this.n && i >= 0) {
             T old = (T) this.objects[i];
             for (int j = i; j < this.n - 1; j++) {
-                this.objects[j] = this.objects[i + 1];
+                this.objects[j] = this.objects[j + 1];
             }
             this.objects[this.n - 1] = null;
             this.n--;
@@ -108,6 +108,20 @@ public class SeqList<T> {
         return null;
     }
 
+    public T remove(T x) {
+        int index = search(x);
+        return this.remove(index);
+    }
+
+    /**
+     * @param x
+     * @return 当前插入值的index
+     */
+    public int insertDifferent(T x) {
+
+        int index = this.search(x);
+        return index >= 0 ? this.insert(x) : -1;
+    }
 //    public SeqList(SeqList<T> list) {
 //        this.n = list.n;
 //        this.objects = list.objects;
@@ -128,6 +142,10 @@ public class SeqList<T> {
             this.objects[i] = list.objects[i];
         }
 
+    }
+
+    public boolean contains(T key) {
+        return this.search(key) != -1;
     }
 
     @Override
@@ -153,4 +171,36 @@ public class SeqList<T> {
         }
         return false;
     }
+
+
+
+    public int search(T x) {
+        for (int i = 0; i < this.n; i++) {
+
+            if (this.objects[i].equals(x)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void addAll(SeqList<? extends T> list) {
+        for (int i = 0; i < list.n; i++) {
+            this.insert(list.get(i));
+        }
+    }
+
+   public SeqList<T> union(SeqList<? extends T> list) {
+
+        for (int i = 0; i < list.n; i++) {
+            int index = this.search(list.get(i));
+            if (index >= 0) {
+                this.remove(index);
+            }
+        }
+        this.addAll(list);
+        return this;
+    }
+
+
 }
