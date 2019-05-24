@@ -18,7 +18,6 @@ public class SinglyList<T> {
     public boolean isEmpty() {
         return this.head.next == null;
     }
-
     public T get(int i) {
         Node<T> p = this.head.next;
         for (int j = 0; p != null && j < i; j++) {
