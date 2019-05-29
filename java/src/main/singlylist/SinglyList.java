@@ -1,4 +1,4 @@
-package main.seqlist.singlylist;
+package main.singlylist;
 
 public class SinglyList<T> {
     private Node<T> head;//头结点

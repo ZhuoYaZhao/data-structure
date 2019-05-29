@@ -1,4 +1,4 @@
-package main.seqlist.singlylist;
+package main.singlylist;
 
 public class Node<T> {
     public T data;
