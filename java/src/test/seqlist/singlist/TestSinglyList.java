@@ -1,6 +1,6 @@
 package test.seqlist.singlist;
 
-import main.seqlist.singlylist.SinglyList;
+import main.singlylist.SinglyList;
 
 public class TestSinglyList {
     public static void main(String[] args) {
