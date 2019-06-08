@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
-public class TimerUtil {
+public class TimerUtil<T> {
 
     public void getTime(Object... args) {
         // 获取当前类型名字
@@ -20,7 +20,7 @@ public class TimerUtil {
                     m.setAccessible(true);
                     long start = System.currentTimeMillis();
                     // 执行该方法
-                    Object result = m.invoke(obj, args);
+                    Object result = m.invoke(obj,args);
                     long end = System.currentTimeMillis();
 
                     Type[] genericParameterTypes = m.getGenericParameterTypes();
@@ -29,11 +29,11 @@ public class TimerUtil {
                         types += genericParameterType.getTypeName();
                     }
                     System.out.println(m.getName() + "(" + types + ") time consumed: " + String.valueOf(end - start) + "ms");
-                    String r = "";
-                    for (Double d : (Double[]) result) {
-                        r += d.toString();
+                    if (result != null) {
+
+                        System.out.println(result);
                     }
-                    System.out.println(r);
+
                     System.out.println("======================");
 
                 }
